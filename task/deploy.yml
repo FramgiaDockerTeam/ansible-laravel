@@ -70,6 +70,6 @@
   run_once: true
 
 - name: Restart nginx
-  command: service nginx restart
+  shell: service nginx restart
   become: yes
   become_user: root
