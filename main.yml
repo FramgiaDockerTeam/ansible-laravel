@@ -6,7 +6,7 @@
     directory_root: "/var/www/laravel"
     repo: "git@github.com:FramgiaDockerTeam/laravel-ssh-source.git"
   tasks:
-    # - include: task/setup.yml
+    - include: task/setup.yml
     - include: task/deploy.yml
 
   handlers:
