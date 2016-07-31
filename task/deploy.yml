@@ -69,6 +69,11 @@
     - restart nginx
   run_once: true
 
+- name: Start php5.6-fpm
+  shell: service php5.6-fpm start
+  become: yes
+  become_user: root
+
 - name: Restart nginx
   shell: service nginx restart
   become: yes

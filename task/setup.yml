@@ -69,8 +69,3 @@
     mv /tmp/composer.phar /usr/local/bin/composer
     creates=/usr/local/bin/composer
   run_once: true
-
-- name: Start php5.6-fpm
-  shell: service php5.6-fpm restart
-  become: yes
-  become_user: root
