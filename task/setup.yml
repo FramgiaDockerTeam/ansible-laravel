@@ -70,7 +70,7 @@
     creates=/usr/local/bin/composer
   run_once: true
 
-- name: Restart php-fpm
-  command: service nginx restart
+- name: Start php5.6-fpm
+  command: service php5.6-fpm restart
   become: yes
   become_user: root
