@@ -51,7 +51,7 @@
 
 - name: Allow to read and write into cache
   file:
-    path: "{{ directory_root }}/cache/"
+    path: "{{ directory_root }}/bootstrap/cache/"
     mode: u=rwx,g=rwx,o=rwx
     state: directory
     recurse: yes

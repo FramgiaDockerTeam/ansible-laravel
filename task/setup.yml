@@ -68,5 +68,9 @@
   shell: >
     mv /tmp/composer.phar /usr/local/bin/composer
     creates=/usr/local/bin/composer
-  notify: start php-fpm
   run_once: true
+
+- name: Restart php-fpm
+  shell: service nginx restart
+  become: yes
+  become_user: root
