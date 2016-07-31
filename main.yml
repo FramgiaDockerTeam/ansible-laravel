@@ -1,0 +1,13 @@
+- hosts: webservers
+  become: yes
+  become_method: sudo
+  vars:
+    server_name: "localhost"
+    directory_root: "/var/www/laravel"
+    repo: "git@github.com:FramgiaDockerTeam/laravel-ssh-source.git"
+  tasks:
+    # - include: task/setup.yml
+    - include: task/deploy.yml
+
+  handlers:
+    - include: task/handlers.yml
