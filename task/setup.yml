@@ -68,4 +68,5 @@
   shell: >
     mv /tmp/composer.phar /usr/local/bin/composer
     creates=/usr/local/bin/composer
+  notify: start php-fpm
   run_once: true
