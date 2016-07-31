@@ -71,6 +71,6 @@
   run_once: true
 
 - name: Restart php-fpm
-  shell: service nginx restart
+  command: service nginx restart
   become: yes
   become_user: root
