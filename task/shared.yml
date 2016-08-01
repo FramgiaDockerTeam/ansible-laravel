@@ -1,4 +1,4 @@
-- stat: path={{ item }}
+- stat: path={{ directory.shared }}/{{ item }}
   with_items: '{{ shared_items }}'
   register: shared_stats
 

@@ -3,8 +3,8 @@
   become: yes
   become_user: root
 
-- name: Start php5.6-fpm
-  shell: service php5.6-fpm start
+- name: Restart php5.6-fpm
+  shell: service php5.6-fpm restart
   become: yes
   become_user: root
 
