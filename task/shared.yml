@@ -1,0 +1,38 @@
+- stat: path={{ item }}
+  with_items: '{{ shared_items }}'
+  register: shared_stats
+
+- name: Move sharing files and directories
+  command: "mv {{ directory_tag }}/{{ item.0 }} {{ directory.shared }}/"
+  with_together:
+    - '{{ shared_items }}'
+    - '{{ shared_stats.results}}'
+  when: not item.1.stat.exists
+
+- name: Remove current files and directories in [tag]
+  file: path={{ directory_tag }}/{{ item }} state=absent
+  with_items: '{{ shared_items }}'
+
+- name: Setup sharing files and directories symlink
+  file: >
+    dest={{ directory_tag }}/{{ item }}
+    src={{ directory.shared }}/{{ item }}
+    state=link
+    force=yes
+  with_items: '{{ shared_items }}'
+
+- name: Check the current symlink folder
+  stat: path={{ directory.current }}
+  register: current_available
+
+- name: Remove the current symlink folder
+  file: path={{ directory.current }} state=absent
+  when: current_available.stat.isdir is defined and current_available.stat.isdir
+
+- name: Setup current version source code
+  file: >
+    dest={{ directory.current }}
+    src={{ directory_tag }}
+    state=link
+    force=yes
+  with_items: '{{ shared_items }}'

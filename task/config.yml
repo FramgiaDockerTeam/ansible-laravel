@@ -1,7 +1,3 @@
-- name: Create root directory
-  file: dest={{ directory_root }} state=directory owner=www-data group=www-data mode=0700
-  run_once: true
-
 - name: Upload the private key used for Github cloning
   copy: src=private_key/github dest=/root/.ssh/github
 
@@ -10,7 +6,7 @@
 
 - name: Clone git repository
   git: >
-    dest={{ directory_root }}
+    dest={{ directory_tag }}
     repo={{ repo }}
     update=yes
     key_file=/root/.ssh/github
@@ -20,61 +16,44 @@
   register: cloned
 
 - name: Composer create-project
-  composer: command=create-project working_dir={{ directory_root }} optimize_autoloader=no
-  run_once: true
+  composer: command=create-project working_dir={{ directory_tag }} optimize_autoloader=no
 
 - name: Generate secret key
-  command: php artisan key:generate chdir={{ directory_root }}
-  run_once: true
+  command: php artisan key:generate chdir={{ directory_tag }}
 
-- name: Composer update
-  composer: command=update working_dir={{ directory_root }} optimize_autoloader=yes
-  when: cloned|changed
+# - name: Composer update
+#   composer: command=update working_dir={{ directory_tag }} optimize_autoloader=yes
+#   when: cloned|changed
 
 - name: Create /var/www/.composer cache directory
   file: dest=/var/www/.composer state=directory owner=www-data group=www-data mode=0700
   become: yes
 
 - name: Set APP_DEBUG=false
-  lineinfile: dest={{ directory_root }}/.env regexp='^APP_DEBUG=' line=APP_DEBUG=false
+  lineinfile: dest={{ directory_tag }}/.env regexp='^APP_DEBUG=' line=APP_DEBUG=false
 
 - name: Set APP_ENV=production
-  lineinfile: dest={{ directory_root }}/.env regexp='^APP_ENV=' line=APP_ENV=production
+  lineinfile: dest={{ directory_tag }}/.env regexp='^APP_ENV=' line=APP_ENV=production
 
 - name: Allow to read and write into storage
   file:
-    path: "{{ directory_root }}/storage/"
+    path: "{{ directory_tag }}/storage/"
     mode: u=rwx,g=rwx,o=rwx
     state: directory
     recurse: yes
-  notify: start nginx
 
 - name: Allow to read and write into cache
   file:
-    path: "{{ directory_root }}/bootstrap/cache/"
+    path: "{{ directory_tag }}/bootstrap/cache/"
     mode: u=rwx,g=rwx,o=rwx
     state: directory
     recurse: yes
 
 - name: Copy configure nginx
   template: src=template/nginx.conf.j2 dest=/etc/nginx/sites-available/default force=yes
-  run_once: true
 
 - name: Enable config nginx
   file: >
     dest=/etc/nginx/sites-enabled/default
     src=/etc/nginx/sites-available/default
     state=link
-  notify:
-    - restart nginx
-  run_once: true
-
-- name: Start php5.6-fpm
-  shell: service php5.6-fpm start
-  become: yes
-  become_user: root
-
-- name: Restart nginx
-  shell: service nginx restart
-  become: yes
-  become_user: root

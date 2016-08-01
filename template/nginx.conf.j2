@@ -3,10 +3,10 @@ server {
     listen 443 ssl;
 
     server_name {{ server_name }};
-    root {{ directory_root }}/public;
+    root {{ directory.current }}/public;
 
-    error_log {{ directory_root }}/error.log;
-    access_log {{ directory_root }}/access.log;
+    error_log {{ directory.current }}/error.log;
+    access_log {{ directory.current }}/access.log;
 
     index index.html index.php;
 

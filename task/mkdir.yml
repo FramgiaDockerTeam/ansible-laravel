@@ -1,0 +1,9 @@
+- name: Create root directory
+  file: dest={{ directory.root }} state=directory owner=www-data group=www-data mode=0700
+  register: init_dir
+- name: Create shared directory
+  file: dest={{ directory.shared }} state=directory owner=www-data group=www-data mode=0700
+  when: init_dir|changed
+- name: Create release directory
+  file: dest={{ directory.release }} state=directory owner=www-data group=www-data mode=0700
+  when: init_dir|changed
