@@ -1,14 +1,19 @@
+- name: Start php5.6-fpm
+  shell: service php5.6-fpm start
+  become: yes
+  become_user: root
+
 - name: Start mysql
   shell: service mysql start
   become: yes
   become_user: root
 
-- name: Restart php5.6-fpm
-  shell: service php5.6-fpm restart
+- name: Restart nginx
+  shell: service nginx restart
   become: yes
   become_user: root
 
-- name: Restart nginx
-  shell: service nginx restart
+- name: Retart php5.6-fpm
+  shell: service php5.6-fpm restart
   become: yes
   become_user: root
