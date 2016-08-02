@@ -40,6 +40,7 @@
     - include: task/shared.yml
     # Start/restart environment
     - include: task/supervisor.yml
+      when: new_host|changed
 
   handlers:
     - include: task/handlers.yml

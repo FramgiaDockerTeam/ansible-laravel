@@ -1,4 +1,13 @@
-- name: Start php5.6-fpm
+- name: Copy configure nginx
+  template: src=template/nginx.conf.j2 dest=/etc/nginx/sites-available/default force=yes
+
+- name: Enable config nginx
+  file: >
+    dest=/etc/nginx/sites-enabled/default
+    src=/etc/nginx/sites-available/default
+    state=link
+
+- name: Start php-fpm
   shell: service php5.6-fpm start
   become: yes
   become_user: root
@@ -10,10 +19,5 @@
 
 - name: Restart nginx
   shell: service nginx restart
-  become: yes
-  become_user: root
-
-- name: Retart php5.6-fpm
-  shell: service php5.6-fpm restart
   become: yes
   become_user: root

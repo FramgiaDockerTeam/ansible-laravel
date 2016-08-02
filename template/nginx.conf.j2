@@ -1,6 +1,5 @@
 server {
     listen 80 default_server;
-    listen 443 ssl;
 
     server_name {{ server_name }};
     root {{ directory.current }}/public;
@@ -22,6 +21,9 @@ server {
         include fastcgi_params;
         fastcgi_pass unix:/var/run/php/php5.6-fpm.sock;
         fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        fastcgi_param REALPATHTEST $realpath_root;
+        internal;
     }
 }
