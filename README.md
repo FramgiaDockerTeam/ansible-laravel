@@ -1,3 +1,15 @@
+#### Copy ssh private key for ssh into server:
+
+```
+cp {your_server_ssh_key} ssh_key/id_rsa
+```
+
+#### Copy deploy key of github:
+
+```
+cp {your_github_deploy_key} scm_key/id_rsa
+```
+
 #### Run command for deploy:
 
 ```
@@ -11,7 +23,7 @@ or
 ansible-playbook -i staging main.yml
 ```
 
-#### Create webserver
+#### Create webserver with docker
 
 ```
 docker run --name server-production \
