@@ -36,7 +36,9 @@
   notify:
     - start php-fpm
     - start nginx
-    - start mysql
+
+# Force the handler to run in between tasks
+- meta: flush_handlers
 
 - name: Install npm build tool
   npm: name={{ item }} state=present global=yes

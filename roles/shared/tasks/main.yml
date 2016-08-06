@@ -38,7 +38,7 @@
   with_items: '{{ shared_items }}'
 
 - name: Copy configure nginx
-  template: src=template/nginx.conf.j2 dest=/etc/nginx/sites-available/default force=yes
+  template: src=nginx.conf.j2 dest=/etc/nginx/sites-available/default force=yes
 
 - name: Enable config nginx
   file: >

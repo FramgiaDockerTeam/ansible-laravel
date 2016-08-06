@@ -70,8 +70,8 @@
 - name: Database migration
   command: php artisan migrate chdir={{ directory_tag }}
 
-- name: Database migration
+- name: Node package install
   command: npm install chdir={{ directory_tag }}
 
-- name: Database migration
+- name: Gulp assets
   command: gulp chdir={{ directory_tag }}
