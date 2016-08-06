@@ -1,0 +1,4 @@
+- name: reload nginx
+  shell: service nginx reload
+  become: yes
+  become_user: root

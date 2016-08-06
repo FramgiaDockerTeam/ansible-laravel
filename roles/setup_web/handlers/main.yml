@@ -1,0 +1,8 @@
+- name: start php-fpm
+  shell: service php5.6-fpm start
+  become: yes
+  become_user: root
+- name: start nginx
+  shell: service nginx restart
+  become: yes
+  become_user: root

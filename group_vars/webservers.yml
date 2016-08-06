@@ -1,0 +1,4 @@
+server_name: "localhost"
+shared_items:
+  - .env
+  - storage

@@ -1,3 +1,6 @@
+- set_fact:
+    directory_tag: "{{ directory.releases }}/{{ timestamp }}"
+- debug: var=directory_tag
 - name: Create root directory
   file: dest={{ directory.root }} state=directory owner=www-data group=www-data mode=0700
   register: init_dir
@@ -5,5 +8,5 @@
   file: dest={{ directory.shared }} state=directory owner=www-data group=www-data mode=0700
   when: init_dir|changed
 - name: Create release directory
-  file: dest={{ directory.release }} state=directory owner=www-data group=www-data mode=0700
+  file: dest={{ directory.releases }} state=directory owner=www-data group=www-data mode=0700
   when: init_dir|changed

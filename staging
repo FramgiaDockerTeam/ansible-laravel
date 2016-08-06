@@ -1,6 +1,9 @@
 [webservers]
 172.17.0.3 ansible_ssh_user=root ansible_ssh_port=22
-172.17.0.4 ansible_ssh_user=root ansible_ssh_port=22
+
+[dbservers]
+172.17.0.3 ansible_ssh_user=root ansible_ssh_port=22
 
 [all:children]
 webservers
+dbservers

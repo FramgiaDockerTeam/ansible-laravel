@@ -1,0 +1,10 @@
+# Detect the very first time run task on host
+- name: Check know_host web
+  stat: path=/known_host_web
+  register: known_host
+- name: Create known_host web
+  file: path=/known_host_web state=touch owner=root group=sys mode=0555
+  register: new_host
+  when: known_host.stat.exists is defined and known_host.stat.exists == false
+# State of current host
+- debug: var=new_host.changed

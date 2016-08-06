@@ -1,16 +1,13 @@
 - name: Enable UTF-8
   locale_gen: name=en_US.UTF-8 state=present
 
-- name: Add MariaDb key
-  apt_key: keyserver=keyserver.ubuntu.com id=0xcbcb082a1bb943db
-
 - name: Add Nodesource key
   apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
 
 - name: Add APT repositories
   apt_repository: repo={{item}} state=present
   with_items:
-    - "deb [arch=amd64,i386,ppc64el] http://ftp.yz.yamagata-u.ac.jp/pub/dbms/mariadb/repo/10.1/ubuntu trusty main"
+    - "ppa:brightbox/ruby-ng"
     - "ppa:ondrej/php"
     - "deb https://deb.nodesource.com/node_6.x {{ ansible_distribution_release|lower }} main"
 
@@ -22,7 +19,6 @@
     - mcrypt
     - build-essential
     - nginx
-    - mariadb-server
     - php5.6-cli
     - php5.6-curl
     - php5.6-fpm
@@ -34,6 +30,9 @@
     - php5.6-zip
     - php5.6-mysql
     - nodejs
+    - ruby2.2
+    - ruby2.2-dev
+    - ruby-switch
   notify:
     - start php-fpm
     - start nginx
@@ -61,3 +60,9 @@
   shell: >
     mv /tmp/composer.phar /usr/local/bin/composer
     creates=/usr/local/bin/composer
+
+- name: Switching the default Ruby version
+  command: ruby-switch --set ruby2.2
+
+- name: Install compass
+  command: gem install compass

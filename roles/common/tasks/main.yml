@@ -1,5 +1,5 @@
 - name: Upload the private key used for Github cloning
-  copy: src=private_key/github dest=/root/.ssh/github
+  copy: src=scm_key/id_rsa dest=/root/.ssh/github
 
 - name: Correct SSH deploy key permissions
   file: dest=/root/.ssh/github mode=0600
@@ -7,7 +7,7 @@
 - name: Clone git repository
   git: >
     dest={{ directory_tag }}
-    repo={{ repo }}
+    repo={{ repository }}
     update=yes
     key_file=/root/.ssh/github
     accept_hostkey=yes
@@ -35,6 +35,21 @@
 - name: Set APP_ENV=production
   lineinfile: dest={{ directory_tag }}/.env regexp='^APP_ENV=' line=APP_ENV=production
 
+- name: Set DB_HOST={{ mysql_host }}
+  lineinfile: dest={{ directory_tag }}/.env regexp='^DB_HOST=' line=DB_HOST={{ mysql_host }}
+
+- name: Set DB_PORT={{ mysql_port }}
+  lineinfile: dest={{ directory_tag }}/.env regexp='^DB_PORT=' line=DB_PORT={{ mysql_port }}
+
+- name: Set DB_DATABASE=production
+  lineinfile: dest={{ directory_tag }}/.env regexp='^DB_DATABASE=' line=DB_DATABASE={{ dbname }}
+
+- name: Set DB_USERNAME=production
+  lineinfile: dest={{ directory_tag }}/.env regexp='^DB_USERNAME=' line=DB_USERNAME={{ dbuser }}
+
+- name: Set DB_PASSWORD=production
+  lineinfile: dest={{ directory_tag }}/.env regexp='^DB_PASSWORD=' line=DB_PASSWORD={{ dbpassword }}
+
 - name: Allow to read and write into storage
   file:
     path: "{{ directory_tag }}/storage/"
@@ -48,3 +63,15 @@
     mode: u=rwx,g=rwx,o=rwx
     state: directory
     recurse: yes
+
+- name: Generate secret key
+  command: php artisan key:generate chdir={{ directory_tag }}
+
+- name: Database migration
+  command: php artisan migrate chdir={{ directory_tag }}
+
+- name: Database migration
+  command: npm install chdir={{ directory_tag }}
+
+- name: Database migration
+  command: gulp chdir={{ directory_tag }}

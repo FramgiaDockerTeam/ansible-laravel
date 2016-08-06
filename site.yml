@@ -1,0 +1,25 @@
+- hosts: dbservers
+  become: yes
+  become_method: sudo
+
+  roles:
+    - { role: knownhost_db }
+    - { role: setup_db, when: new_host|changed }
+
+- hosts: webservers
+  become: yes
+  become_method: sudo
+  vars:
+    timestamp: "{{ lookup('pipe','date +%Y%m%d%H%M%S') }}"
+    directory:
+      root: "{{ root_dir }}"
+      current: "{{ root_dir }}/current"
+      shared: "{{ root_dir }}/shared"
+      releases: "{{ root_dir }}/releases"
+
+  roles:
+    - { role: knownhost_web }
+    - { role: setup_web, when: new_host|changed }
+    - { role: directory }
+    - { role: common }
+    - { role: shared }

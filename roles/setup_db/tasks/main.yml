@@ -1,0 +1,35 @@
+- name: Enable UTF-8
+  locale_gen: name=en_US.UTF-8 state=present
+
+- name: Add MariaDb key
+  apt_key: keyserver=keyserver.ubuntu.com id=0xcbcb082a1bb943db
+
+- name: Add APT repositories
+  apt_repository: repo={{item}} state=present
+  with_items:
+    - "deb [arch=amd64,i386,ppc64el] http://ftp.yz.yamagata-u.ac.jp/pub/dbms/mariadb/repo/10.1/ubuntu trusty main"
+
+- name: Install packages
+  apt: name={{ item }} update_cache=yes state=present
+  with_items:
+    - git
+    - curl
+    - mcrypt
+    - build-essential
+    - mariadb-server
+    - python-mysqldb
+  notify:
+    - start mysql
+
+# Force the handler to run in between tasks
+- meta: flush_handlers
+
+- name: Create Application Database
+  mysql_db: >
+    name={{ dbname }}
+    collation=utf8_general_ci
+    encoding=utf8
+    state=present
+
+- name: Create Application DB User
+  mysql_user: name={{ dbuser }} password={{ dbpassword }} priv=*.*:ALL host='%' state=present
