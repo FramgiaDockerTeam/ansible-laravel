@@ -1,8 +1,8 @@
 [webservers]
-13.67.63.4 ansible_ssh_user=root ansible_ssh_port=8023 ansible_ssh_private_key_file=ssh_key/id_rsa
+45.32.62.179 ansible_ssh_user=root ansible_ssh_port=8222 ansible_ssh_private_key_file=ssh_key/id_rsa
 
 [dbservers]
-13.67.63.4 ansible_ssh_user=root ansible_ssh_port=8023 ansible_ssh_private_key_file=ssh_key/id_rsa
+45.32.62.179 ansible_ssh_user=root ansible_ssh_port=8222 ansible_ssh_private_key_file=ssh_key/id_rsa
 
 [all:children]
 webservers

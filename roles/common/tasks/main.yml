@@ -12,6 +12,7 @@
     key_file=/root/.ssh/github
     accept_hostkey=yes
     force=yes
+    version={{ branch }}
   become: yes
   register: cloned
 
