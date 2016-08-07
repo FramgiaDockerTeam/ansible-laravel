@@ -12,7 +12,7 @@ cp {your_server_ssh_key} ssh_key/id_rsa
 cp {your_github_deploy_key} scm_key/id_rsa
 ```
 
-#### Setting source code directory and source control version:
+#### Setting source code directory and source version control:
 
 `group_vars/all.yml`
 
