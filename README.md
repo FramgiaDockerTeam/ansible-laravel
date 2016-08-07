@@ -20,14 +20,12 @@ cp {your_github_deploy_key} scm_key/id_rsa
 
 `production.yml` or `staging.yml`
 
-#### Run command for deploy:
+#### Run deploy command:
 
 ```
 ansible-playbook -i production  main.yml
 ```
-
 or
-
 
 ```
 ansible-playbook -i staging main.yml
