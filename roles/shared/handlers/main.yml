@@ -2,3 +2,8 @@
   shell: service nginx reload
   become: yes
   become_user: root
+
+- name: restart nginx
+  shell: service nginx restart
+  become: yes
+  become_user: root

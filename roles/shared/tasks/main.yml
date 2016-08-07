@@ -45,4 +45,14 @@
     dest=/etc/nginx/sites-enabled/default
     src=/etc/nginx/sites-available/default
     state=link
+
+# Detect the very first time config nginx host
+- name: Check know_app web
+  stat: path={{ directory.root }}/known_app
+  register: known_app
+
+- name: Create known_app web
+  file: path={{ directory.root }}/known_app state=touch owner=root group=sys mode=0555
+  register: new_app
+  when: known_app.stat.exists is defined and known_app.stat.exists == false
   notify: reload nginx
