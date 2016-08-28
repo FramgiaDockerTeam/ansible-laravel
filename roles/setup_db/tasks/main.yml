@@ -33,3 +33,11 @@
 
 - name: Create Application DB User
   mysql_user: name={{ dbuser }} password={{ dbpassword }} priv=*.*:ALL host='%' state=present
+
+# Complete setup database
+- name: Create known host database
+  file: path=/knownhost_db state=touch owner=root group=sys mode=0555
+  register: new_host
+
+# State of current host
+- debug: var=new_host.changed

@@ -29,6 +29,7 @@
     - php5.6-mcrypt
     - php5.6-zip
     - php5.6-mysql
+    - php5.6-gd
     - nodejs
     - ruby2.2
     - ruby2.2-dev
@@ -68,3 +69,11 @@
 
 - name: Install compass
   command: gem install compass
+
+# Complete setup database
+- name: Create known host web
+  file: path=/knownhost_web state=touch owner=root group=sys mode=0555
+  register: new_host
+
+# State of current host
+- debug: var=new_host.changed
