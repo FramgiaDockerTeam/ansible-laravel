@@ -1,5 +1,5 @@
 - name: Upload the private key used for Github cloning
-  copy: src=scm_key/id_rsa dest=/root/.ssh/github
+  copy: src={{ scm_key }} dest=/root/.ssh/github
 
 - name: Correct SSH deploy key permissions
   file: dest=/root/.ssh/github mode=0600
